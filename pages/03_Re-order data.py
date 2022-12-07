@@ -13,8 +13,6 @@ import msgpack
 from direct_redis import DirectRedis
 from functions import *
 
-base_list = ["id","name","type","status","description","short_description","sku","price","regular_price","stock_quantity" ]
-# COLUMN_NAMES = ["id","name","slug",	"permalink"	,"date_created","date_created_gmt","date_modified","date_modified_gmt","type","status","featured","catalog_visibility","description","short_description","sku","price","regular_price","sale_price","date_on_sale_from","date_on_sale_from_gmt","date_on_sale_to","date_on_sale_to_gmt","on_sale","purchasable","total_sales","virtual","downloadable","downloads","download_limit","download_expiry","external_url","button_text","tax_status","tax_class","manage_stock","stock_quantity","backorders","backorders_allowed","backordered","low_stock_amount","categories"]
 r2 = DirectRedis(host='localhost', port=6379)
 redis_host = '127.0.0.1'
 r = Redis(redis_host)
@@ -22,6 +20,11 @@ try:
     df2= r2.get('df')
 except:
     df2 = pd.DataFrame()
+try:
+    base_list = r2.get('list')
+except:
+    base_list = ["id","name","type","status","description","short_description","sku","price","regular_price","stock_quantity" ]
+
 list_columns = ["sku"]
 list_attributes = ["sku","attributes"]
 list_images = ["sku","images"]
@@ -37,7 +40,7 @@ st.set_page_config(
      }
 )
 
-st.title("Step 2: solve categories")
+st.title("Step 4: Re-order data")
 
 if st.button('load data'):
     # type(r2.get('df'))
@@ -61,16 +64,17 @@ if st.button('Sort Categories'):
             # js = json.dumps(js)
             count = 0
             for item in js:
-                column_name = 'category'+ str(count)
+                column_name = 'Category '+ str(count)
                 df2.loc[index,column_name ] =item['name']
                 list_columns = list_columns + [column_name] if column_name not in list_columns else list_columns
                 base_list = base_list + [column_name] if column_name not in base_list else base_list
                 count=count+1
         r2.set('df', df2) 
+        r2.set('list',base_list)
     except Exception as e:
         st.write(e)
-
-st.dataframe(df2[list_attributes].astype(str))
+st.dataframe(df2[list_columns].astype(str))
+# st.dataframe(df2[list_attributes].astype(str))
         # print(link)
 if st.button('Sort Attributes'):
     for index, row in df2.iterrows():
@@ -95,8 +99,8 @@ if st.button('Sort Attributes'):
             count = 0
             print(js)
             for item in js:
-                column_name = 'attribute name'+ str(count)
-                column_name_1 = 'attribute value'+ str(count)
+                column_name = 'attribute name '+ str(count)
+                column_name_1 = 'attribute value '+ str(count)
                 
                 try:
                     df2.loc[index,column_name_1 ] =item['options']
@@ -108,9 +112,11 @@ if st.button('Sort Attributes'):
                 list_attributes = list_attributes + [column_name] if column_name not in list_attributes else list_attributes
                 list_attributes = list_attributes + [column_name_1] if column_name_1 not in list_attributes else list_attributes
                 base_list = base_list + [column_name] if column_name not in base_list else base_list
+                base_list = base_list + [column_name_1] if column_name_1 not in base_list else base_list
                 count=count+1
-    r2.set('df', df2)     
-
+    r2.set('df', df2) 
+    r2.set('list',base_list)    
+st.dataframe(df2[list_attributes].astype(str))
 
 
 st.dataframe(df2[['sku','images']].astype(str))

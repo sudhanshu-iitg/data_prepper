@@ -22,7 +22,7 @@ except:
 # df2= pd.read_excel('test.xlsx')
 df3 = pd.read_excel("Gx-attibutes.xlsx")
 st.set_page_config(
-     page_title="Step 2 - Generate complete file",
+     page_title="Step 8 - Add generate attributes",
      page_icon="https://uploads-ssl.webflow.com/6278f3c8ca098b4b29fd9609/62b5aeb5966e384261f03b06_favicon-32x32.png",
      layout="wide",
      initial_sidebar_state="expanded",
@@ -42,7 +42,7 @@ if st.button('Generate complete file'):
 if st.button('add attributes'):
     for index, row in df2.iterrows():
         category = row["gx-category"]
-        st.write("category "+category)
+        st.write("category "+str(category))
         for index,row in df3.iterrows():
                 if row["Produkttyp"] == category:
                     
@@ -54,6 +54,7 @@ if st.button('add attributes'):
                         # st.write("Filter " + row["Eigenschaft"])
                         df2[row["Eigenschaft"]] = None
                         base_list = base_list + [row["Eigenschaft"]] if row["Eigenschaft"] not in base_list else base_list
+    r2.set('list', base_list)
     r2.set('df', df2)
     st.info("specification columns added")
 
@@ -70,3 +71,4 @@ if st.button('Run this'):
                         # st.write("Filter " + row["Eigenschaft"])
                         df2.loc[index,row1["Eigenschaft"] ] = "x"
     r2.set('df', df2)
+    # r2.set('list', base_list)

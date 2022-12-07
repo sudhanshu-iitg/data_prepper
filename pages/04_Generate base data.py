@@ -19,7 +19,7 @@ st.set_page_config(
      }
 )
 
-st.title("Step 2: Generate complete file")
+st.title("Step 5: Generate base data")
 
 if st.button('Generate complete file'):
     st.dataframe(generate_base())

@@ -35,7 +35,7 @@ st.set_page_config(
      }
 )
 
-st.title("Step 2: Generate complete file")
+st.title("Step 6: Map Categories")
 option = ""
 if st.button('Generate complete file'):
     df2["input"] = "vaue"

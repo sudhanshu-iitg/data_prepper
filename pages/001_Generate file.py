@@ -17,7 +17,12 @@ COLUMN_NAMES = ["id","name","slug",	"permalink"	,"date_created","date_created_gm
 items = 0
 redis_host = '127.0.0.1'
 r = Redis(redis_host)
+try:
+    df2= r2.get('df')
+    
 
+except:
+    df2 = pd.DataFrame()
 st.set_page_config(
      page_title="Step 2 - Generate complete file",
      page_icon="https://uploads-ssl.webflow.com/6278f3c8ca098b4b29fd9609/62b5aeb5966e384261f03b06_favicon-32x32.png",
@@ -32,8 +37,6 @@ st.set_page_config(
 
 st.title("Step 2: Generate complete file")
 
-if st.button('Load structure'):
-    df2 = pd.DataFrame()
 
 if st.button('Generate complete file'):
 
@@ -71,11 +74,5 @@ if st.button('Generate complete file'):
         st.write("No can do, error came" + str(e))
         
 st.dataframe(df2.astype(str))
-if st.button('Save file'):
-    
-    js = df2.to_json()
-    st.write(js)
-    st.dataframe(df2.astype(str))
-    r.set('data',"js")
-    st.session_state.data = df2
+
 

@@ -57,3 +57,4 @@ df_xlsx1 = to_excel(df2[base_list])
 st.download_button(label='📥 Download base file',
                                 data=df_xlsx1 ,
                                 file_name= 'test.xlsx')
+st.write(base_list)
