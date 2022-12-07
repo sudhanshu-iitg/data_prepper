@@ -7,7 +7,23 @@ import json
 import re
 import ast
 import streamlit as st
+from io import BytesIO
+from pyxlsb import open_workbook as open_xlsb
 
+def to_excel(df):
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False, sheet_name='Sheet1')
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+    format1 = workbook.add_format({'num_format': '0.00'}) 
+    worksheet.set_column('A:A', None, format1)  
+    writer.save()
+    processed_data = output.getvalue()
+    return processed_data
+
+
+    
 def check():
     
     CONSUMER_KEY = st.session_state.woocom_key
@@ -23,16 +39,45 @@ def check():
     response = requests.get(url1, auth=(CONSUMER_KEY, CONSUMER_SECRET),params=para)
     if(response.status_code==200):
         url1=url1
+        st.session_state.woocom_product_url = url1
+        url2 = url +"/wp-json/wc/v3/taxes"
+        st.session_state.woocom_tax_url = url2
         return True
     else:
         url1=url1+"?consumer_key="+CONSUMER_KEY+"&consumer_secret="+CONSUMER_SECRET
         
         response = requests.get(url1, auth=(CONSUMER_KEY, CONSUMER_SECRET),params=para)
         if(response.status_code==200):
+            
+            st.write(url1)
+            st.session_state.woocom_product_url = url1
+            url2 = url +"/wp-json/wc/v3/taxes?consumer_key="+CONSUMER_KEY+"&consumer_secret="+CONSUMER_SECRET
+            st.session_state.woocom_tax_url = url2
             return True
-            st.session_state.woocom_url = url1
         else :
             return False
+
+
+def check_bexio():
+
+    token = st.session_state.bexio_token
+    
+    url = "https://api.bexio.com/2.0/article"
+    headers = {
+        'Accept': "application/json",
+        'Content-Type': "application/json",
+        'Authorization': "Bearer "+token,
+        }
+    params = {"limit":1}
+    
+    response = requests.request("GET", url, headers=headers, params=params)
+    list=response.json()
+    bexio_data = pd.DataFrame(list)
+    if(response.status_code==200):
+        # url1=url1
+        return True
+    else:
+       return False
 
 
 def generate():
