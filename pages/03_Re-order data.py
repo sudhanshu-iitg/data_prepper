@@ -13,9 +13,9 @@ import msgpack
 from direct_redis import DirectRedis
 from functions import *
 
-r2 = DirectRedis(host='localhost', port=6379)
-redis_host = '127.0.0.1'
-r = Redis(redis_host)
+r2 = DirectRedis(host='redis:6379', port=6379)
+# redis_host = '127.0.0.1'
+# r = Redis(redis_host)
 try:
     df2= r2.get('df')
 except:

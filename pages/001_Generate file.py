@@ -9,14 +9,14 @@ import msgpack
 from direct_redis import DirectRedis
 
 
-r2 = DirectRedis(host='localhost', port=6379)
+r2 = DirectRedis(host='redis:6379', port=6379)
 
 # df2= pd.read_excel('test.xlsx')
 COLUMN_NAMES = ["id","name","slug",	"permalink"	,"date_created","date_created_gmt","date_modified","date_modified_gmt","type","status","featured","catalog_visibility","description","short_description","sku","price","regular_price","sale_price","date_on_sale_from","date_on_sale_from_gmt","date_on_sale_to","date_on_sale_to_gmt","on_sale","purchasable","total_sales","virtual","downloadable","downloads","download_limit","download_expiry","external_url","button_text","tax_status","tax_class","manage_stock","stock_quantity","backorders","backorders_allowed","backordered","low_stock_amount","categories"]
 # df2 = pd.DataFrame(columns=COLUMN_NAMES)
 items = 0
-redis_host = '127.0.0.1'
-r = Redis(redis_host)
+# redis_host = '127.0.0.1'
+# r = Redis(redis_host)
 try:
     df2= r2.get('df')
     
