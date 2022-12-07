@@ -13,7 +13,7 @@ import msgpack
 from direct_redis import DirectRedis
 from functions import *
 
-r2 = DirectRedis(host='redis:6379', port=6379)
+r2 = DirectRedis(host='redis', port=6379)
 # redis_host = '127.0.0.1'
 # r = Redis(redis_host)
 try:
