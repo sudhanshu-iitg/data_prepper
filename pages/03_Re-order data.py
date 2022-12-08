@@ -48,8 +48,7 @@ st.set_page_config(
 )
 
 st.title("Step 4: Re-order data")
-st.write(base_list)
-st.write(type(base_list))
+
 if st.button('load data'):
     # type(r2.get('df'))
     # df3 = r2.get('df')

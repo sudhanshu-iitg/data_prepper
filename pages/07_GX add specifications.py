@@ -20,7 +20,7 @@ try:
  
     # Reading from json file
         json_object = json.load(openfile)
-        base_list = json.dumps(json_object)
+        base_list = json_object
 except:
     base_list = ["id","name","type","status","description","short_description","sku","price","regular_price","stock_quantity" ]
 # df2= pd.read_excel('test.xlsx')
