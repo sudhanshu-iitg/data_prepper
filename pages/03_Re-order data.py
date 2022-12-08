@@ -12,19 +12,26 @@ from redis import Redis
 import msgpack
 from direct_redis import DirectRedis
 from functions import *
+import json
 
-r2 = DirectRedis(host='redis', port=6379)
+
+# r2 = DirectRedis(host='redis', port=6379)
 # redis_host = '127.0.0.1'
 # r = Redis(redis_host)
 try:
-    df2= r2.get('df')
+    # df2= r2.get('df')
+    df2 = pd.read_csv (r"1.csv")
 except:
     df2 = pd.DataFrame()
 try:
-    base_list = r2.get('list')
+    with open('sample3.json', 'r') as openfile:
+ 
+    # Reading from json file
+        json_object = json.load(openfile)
+        base_list = json_object
+    
 except:
     base_list = ["id","name","type","status","description","short_description","sku","price","regular_price","stock_quantity" ]
-
 list_columns = ["sku"]
 list_attributes = ["sku","attributes"]
 list_images = ["sku","images"]
@@ -41,10 +48,12 @@ st.set_page_config(
 )
 
 st.title("Step 4: Re-order data")
-
+st.write(base_list)
+st.write(type(base_list))
 if st.button('load data'):
     # type(r2.get('df'))
-    df3 = r2.get('df')
+    # df3 = r2.get('df')
+    df3 = pd.read_csv (r"1.csv")
     # sample = r.get('data').decode()
     # df3= pd.read_json(sample)
     st.write(df3.astype(str))
@@ -69,8 +78,13 @@ if st.button('Sort Categories'):
                 list_columns = list_columns + [column_name] if column_name not in list_columns else list_columns
                 base_list = base_list + [column_name] if column_name not in base_list else base_list
                 count=count+1
-        r2.set('df', df2) 
-        r2.set('list',base_list)
+        df2.to_csv("1.csv")
+        my_json = json.dumps(base_list)
+        with open("sample3.json", "w") as outfile:
+            outfile.write(my_json)
+        
+        # r2.set('list',base_list)
+
     except Exception as e:
         st.write(e)
 st.dataframe(df2[list_columns].astype(str))
@@ -114,8 +128,10 @@ if st.button('Sort Attributes'):
                 base_list = base_list + [column_name] if column_name not in base_list else base_list
                 base_list = base_list + [column_name_1] if column_name_1 not in base_list else base_list
                 count=count+1
-    r2.set('df', df2) 
-    r2.set('list',base_list)    
+    df2.to_csv("1.csv")
+    my_json = json.dumps(base_list)
+    with open("sample3.json", "w") as outfile:
+            outfile.write(my_json)  
 st.dataframe(df2[list_attributes].astype(str))
 
 
@@ -137,8 +153,10 @@ if st.button('Sort images'):
             list_images = list_images + [column_name] if column_name not in list_images else list_images
             base_list = base_list + [column_name] if column_name not in base_list else base_list
             count=count+1
-    r2.set('df', df2) 
-    r2.set('list',base_list)
+    df2.to_csv("1.csv")
+    my_json = json.dumps(base_list)
+    with open("sample3.json", "w") as outfile:
+            outfile.write(my_json)
 st.dataframe(df2[list_images].astype(str))
 # st.dataframe(df2[[base_list]].astype(str))
 
@@ -147,12 +165,12 @@ st.download_button(label='📥 Download Complete file',
                                 data=df_xlsx ,
                                 file_name= 'test.xlsx')
 
-if st.button('show'):
-    try:
-        df2= r2.get('df')
-        df_xlsx1 = to_excel(df2[[base_list]])
-        st.download_button(label='📥 Download base file',
-                                    data=df_xlsx1 ,
-                                    file_name= 'test.xlsx')
-    except Exception as e:
-        st.write(e)
+# if st.button('show'):
+#     try:
+#         df2= r2.get('df')
+#         df_xlsx1 = to_excel(df2[[base_list]])
+#         st.download_button(label='📥 Download base file',
+#                                     data=df_xlsx1 ,
+#                                     file_name= 'test.xlsx')
+#     except Exception as e:
+#         st.write(e)

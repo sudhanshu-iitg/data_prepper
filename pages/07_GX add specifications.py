@@ -12,11 +12,15 @@ r2 = DirectRedis(host='localhost', port=6379)
 redis_host = '127.0.0.1'
 r = Redis(redis_host)
 try:
-    df2= r2.get('df')
+    df2 = pd.read_csv (r"1.csv")
 except:
     df2 = pd.DataFrame()
 try:
-    base_list = r2.get('list')
+    with open('sample3.json', 'r') as openfile:
+ 
+    # Reading from json file
+        json_object = json.load(openfile)
+        base_list = json.dumps(json_object)
 except:
     base_list = ["id","name","type","status","description","short_description","sku","price","regular_price","stock_quantity" ]
 # df2= pd.read_excel('test.xlsx')
@@ -54,8 +58,10 @@ if st.button('add attributes'):
                         # st.write("Filter " + row["Eigenschaft"])
                         df2[row["Eigenschaft"]] = None
                         base_list = base_list + [row["Eigenschaft"]] if row["Eigenschaft"] not in base_list else base_list
-    r2.set('list', base_list)
-    r2.set('df', df2)
+    my_json = json.dumps(base_list)
+    with open("sample3.json", "w") as outfile:
+            outfile.write(my_json)
+    df2.to_csv("1.csv")
     st.info("specification columns added")
 
 if st.button('Run this'):
@@ -70,5 +76,5 @@ if st.button('Run this'):
                     elif row1["Filter"] == "X":
                         # st.write("Filter " + row["Eigenschaft"])
                         df2.loc[index,row1["Eigenschaft"] ] = "x"
-    r2.set('df', df2)
+    df2.to_csv("1.csv")
     # r2.set('list', base_list)

@@ -67,11 +67,12 @@ if st.button('Generate complete file'):
         # js = df2.to_json()
         # js = str(js)
         # r.set('data',js)
-        r2.set('df', df2) 
+        # r2.set('df', df2) 
+        df2.to_csv("1.csv")
 
         
     except Exception as e:
-        st.write("No can do, error came" + str(e))
+        st.write("No can do, error came " + str(e))
         
 st.dataframe(df2.astype(str))
 

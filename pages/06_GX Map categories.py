@@ -9,11 +9,9 @@ from redis import Redis
 
 list_category = []
 
-r2 = DirectRedis(host='localhost', port=6379)
-redis_host = '127.0.0.1'
-r = Redis(redis_host)
+
 try:
-    df2= r2.get('df')
+    df2 = pd.read_csv (r"1.csv")
     
 
 except:
@@ -46,13 +44,13 @@ def add_category(string,index):
     print(option)
 
 for index, row in df2.iterrows():
-        column_name = row["category0"]
+        column_name = row["Category 0"]
         if column_name not in list_category:
             list_category = list_category + [column_name]
             col2,col3 = st.columns(2)
             
             with col2:
-                st.write(row["category0"])
+                st.write(row["Category 0"])
             with col3:
                option = st.selectbox(
         'Map the Galaxus category.',
@@ -61,6 +59,7 @@ for index, row in df2.iterrows():
                 print("something")
             else:
                 for index,row1 in df2.iterrows():
-                    if row1["category0"]==row["category0"]:
+                    if row1["Category 0"]==row["Category 0"]:
                         df2.loc[index,'gx-category']=option
-                        r2.set('df', df2)
+                        df2.to_csv("1.csv")
+        
