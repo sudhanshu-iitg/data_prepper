@@ -60,7 +60,7 @@ if st.button('Generate complete file'):
                 allProducts=pd.concat([allProducts,df3])
                 page=page+1
 
-                page= False
+                # page= False
             else :
                 page = False
         df2 = pd.DataFrame(allProducts)
