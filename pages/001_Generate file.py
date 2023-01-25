@@ -51,7 +51,7 @@ if st.button('Generate complete file'):
 
         while page != False:
             print(page)
-            para = {"per_page":10,"page":page}
+            para = {"per_page":500,"page":page}
             products =requests.get(url, auth=(CONSUMER_KEY, CONSUMER_SECRET),params=para,timeout = None)
 
             if (len(products.json())>0) :
