@@ -60,14 +60,11 @@ if st.button('Generate complete file'):
                 allProducts=pd.concat([allProducts,df3])
                 page=page+1
 
-                # page= False
+
             else :
                 page = False
         df2 = pd.DataFrame(allProducts)
-        # js = df2.to_json()
-        # js = str(js)
-        # r.set('data',js)
-        # r2.set('df', df2) 
+
         df2.to_csv("1.csv")
 
         
