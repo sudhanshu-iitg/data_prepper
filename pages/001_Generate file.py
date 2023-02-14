@@ -59,8 +59,6 @@ if st.button('Generate complete file'):
                 df3 = pd.DataFrame(products.json())
                 allProducts=pd.concat([allProducts,df3])
                 page=page+1
-
-
             else :
                 page = False
         df2 = pd.DataFrame(allProducts)
@@ -70,7 +68,6 @@ if st.button('Generate complete file'):
         
     except Exception as e:
         st.write("No can do, error came " + str(e))
+    
         
 st.dataframe(df2.astype(str))
-
-
