@@ -36,7 +36,10 @@ def check():
     url1 = url+"/wp-json/wc/v3/products"
     page = 1
     para = {"per_page":1,"page":page}
-    response = requests.get(url1, auth=(CONSUMER_KEY, CONSUMER_SECRET),params=para)
+    headers = {
+    'User-Agent': 'Chrome v22.2 Linux Ubuntu',
+}
+    response = requests.get(url1, auth=(CONSUMER_KEY, CONSUMER_SECRET),params=para,headers=headers)
     if(response.status_code==200):
         url1=url1
         st.session_state.woocom_product_url = url1
@@ -46,7 +49,7 @@ def check():
     else:
         url1=url1+"?consumer_key="+CONSUMER_KEY+"&consumer_secret="+CONSUMER_SECRET
         
-        response = requests.get(url1, auth=(CONSUMER_KEY, CONSUMER_SECRET),params=para)
+        response = requests.get(url1, auth=(CONSUMER_KEY, CONSUMER_SECRET),params=para,headers=headers)
         if(response.status_code==200):
             
             st.write(url1)

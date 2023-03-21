@@ -52,7 +52,9 @@ if st.button('Generate complete file'):
         while page != False:
             print(page)
             para = {"per_page":100,"page":page}
-            products =requests.get(url, auth=(CONSUMER_KEY, CONSUMER_SECRET),params=para,timeout = None)
+            headers = {'User-Agent': 'Chrome v22.2 Linux Ubuntu'}
+
+            products =requests.get(url, auth=(CONSUMER_KEY, CONSUMER_SECRET),params=para,timeout = None ,headers=headers)
 
             if (len(products.json())>0) :
                 st.info(str(len(products.json())) + " products added")
