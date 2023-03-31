@@ -21,7 +21,7 @@ def my_function(input_text):
     st.session_state.df = df
     st.write(df)
     return df
-st.title('Google Sheets to DataFrame')
+st.title('Specification generation from Google sheets')
 
 
 # Retrieve data from Google Sheets
@@ -84,7 +84,7 @@ if st.button('Do the Magic'):
                 st.write(e)
         st.write(df)   # break
         df_xlsx = to_excel(df)
-        st.download_button(label='📥 Download Complete file',
+        st.download_button(label='📥 Download Generated file',
                                 data=df_xlsx ,
                                 file_name= 'file.xlsx')
 
