@@ -94,7 +94,7 @@ if st.button('Do the Magic'):
                                     data=df_xlsx ,
                                     file_name= 'file.xlsx')
             except Exception as e:
-                st.write(e)
+                st.write(response)
                 st.write(response.json())
             
         st.write(df)   # break
