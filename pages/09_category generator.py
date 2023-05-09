@@ -57,31 +57,46 @@ if st.button('Do the Magic'):
             response = requests.post("https://suds-0308-specification-generator.hf.space/run/predict", json={
                 "data": [
                     row[st.session_state.column]]})
-            df.loc[index,"New Category" ] = response.json()['data'][2]['label']
             try:
-                # st.write(response.json()['data'])
-                items = response.json()['data'][1]['label'].split(",")
-                count = 1
-                for item in items:
-                    if "[" in item:
-                        item = item.split("[")[1]
-                    if "]" in item:
-                        item = item.split("]")[1]
-                    if "NA" not in item and len(item)>0:
-                        keys = item.split(":")
-                        # st.write(count)
-                        # st.write(len(item))
-                        # count = count+1
-                        try:
-                            df.loc[index,"Specification key "+str(count) ] = keys[0]
-                            df.loc[index,"Specification value "+str(count) ] = keys[1] 
-                            count = count+1
-                            
-                        except Exception as e:
-                            
-                            st.write(e)
+                df.loc[index,"New Category" ] = response.json()['data'][2]['label']
+                try:
+                    # st.write(response.json()['data'])
+                    items = response.json()['data'][1]['label'].split(",")
+                    count = 1
+                    for item in items:
+                        if "[" in item:
+                            item = item.split("[")[1]
+                        if "]" in item:
+                            item = item.split("]")[1]
+                        if "NA" not in item and len(item)>0:
+                            keys = item.split(":")
+                            # st.write(count)
+                            # st.write(len(item))
+                            # count = count+1
+                            try:
+                                df.loc[index,"Specification key "+str(count) ] = keys[0]
+                                df.loc[index,"Specification value "+str(count) ] = keys[1] 
+                                count = count+1
+                                
+                            except Exception as e:
+                                
+                                st.write(e)
+                                st.write(keys)
+                                df_xlsx = to_excel(df)
+                                st.download_button(label='📥 Download Generated file',
+                                    data=df_xlsx ,
+                                    file_name= 'file.xlsx')
+                except Exception as e:
+                    st.write(response.json())
+                    st.write(e)
+                    df_xlsx = to_excel(df)
+                    st.download_button(label='📥 Download Generated file',
+                                    data=df_xlsx ,
+                                    file_name= 'file.xlsx')
             except Exception as e:
                 st.write(e)
+                st.write(response.json())
+            
         st.write(df)   # break
         df_xlsx = to_excel(df)
         st.download_button(label='📥 Download Generated file',
