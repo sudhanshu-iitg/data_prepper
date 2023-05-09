@@ -95,7 +95,10 @@ if st.button('Do the Magic'):
                                     file_name= 'file.xlsx')
             except Exception as e:
                 st.write(response)
-                st.write(response.json())
+                df_xlsx = to_excel(df)
+                st.download_button(label='📥 Download Generated file',
+                                data=df_xlsx ,
+                                file_name= 'file.xlsx')
             
         st.write(df)   # break
         df_xlsx = to_excel(df)
