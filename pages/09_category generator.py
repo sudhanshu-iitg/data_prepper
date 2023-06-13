@@ -39,6 +39,8 @@ if st.button('Fetch Data'):
     
 st.session_state.column = st.selectbox('Select the column containing descriptions', headers)
 st.write('You selected:', st.session_state.column)
+st.session_state.column1 = st.selectbox('Select the column containing descriptions', headers)
+st.write('You selected:', st.session_state.column1)
 # st.write(df)
 if st.button('Do the Magic'):
     # output = my_function(sheet_URL)
@@ -48,17 +50,17 @@ if st.button('Do the Magic'):
         df = st.session_state.df
         for index, row in df.iterrows():
             toast = st.empty()
-            toast.success(index)
+            toast.success(index) 
             time.sleep(1)
             json = {
-                "data": row[st.session_state.column]}
+                "data": [ row[st.session_state.column],row[st.session_state.column1]] }
             url = "https://suds-0308-specification-generator.hf.space/run/predict"
             # headers = {"accept": "application/json","Content-Type": "application/json"}
             response = requests.post("https://suds-0308-specification-generator.hf.space/run/predict", json={
                 "data": [
                     row[st.session_state.column]]})
             try:
-                df.loc[index,"New Category" ] = response.json()['data'][2]['label']
+                df.loc[index,"New Category -1" ] = response.json()['data'][2]['label']
                 try:
                     # st.write(response.json()['data'])
                     items = response.json()['data'][1]['label'].split(",")
