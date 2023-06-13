@@ -39,7 +39,7 @@ if st.button('Fetch Data'):
     
 st.session_state.column = st.selectbox('Select the column containing descriptions', headers)
 st.write('You selected:', st.session_state.column)
-st.session_state.column1 = st.selectbox('Select the column containing descriptions', headers)
+st.session_state.column1 = st.selectbox('Select the column containing category', headers)
 st.write('You selected:', st.session_state.column1)
 # st.write(df)
 if st.button('Do the Magic'):
