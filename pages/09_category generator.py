@@ -56,9 +56,7 @@ if st.button('Do the Magic'):
                 "data": [ row[st.session_state.column],row[st.session_state.column1]] }
             url = "https://suds-0308-specification-generator.hf.space/run/predict"
             # headers = {"accept": "application/json","Content-Type": "application/json"}
-            response = requests.post("https://suds-0308-specification-generator.hf.space/run/predict", json={
-                "data": [
-                    row[st.session_state.column]]})
+            response = requests.post("https://suds-0308-specification-generator.hf.space/run/predict", json=json)
             try:
                 df.loc[index,"New Category -1" ] = response.json()['data'][2]['label']
                 try:
