@@ -82,10 +82,7 @@ if st.button('Do the Magic'):
                                 
                                 st.write(e)
                                 st.write(keys)
-                                df_xlsx = to_excel(df)
-                                st.download_button(label='📥 Download Generated file',
-                                    data=df_xlsx ,
-                                    file_name= 'file.xlsx')
+                                
                 except Exception as e:
                     st.write(response.json())
                     st.write(e)
@@ -99,12 +96,15 @@ if st.button('Do the Magic'):
                 st.download_button(label='📥 Download Generated file',
                                 data=df_xlsx ,
                                 file_name= 'file.xlsx')
-            
-        st.write(df)   # break
-        df_xlsx = to_excel(df)
-        st.download_button(label='📥 Download Generated file',
-                                data=df_xlsx ,
-                                file_name= 'file.xlsx')
+        try:    
+            st.write(df)   # break
+            df_xlsx = to_excel(df)
+            st.download_button(label='📥 Download Generated file',
+                                    data=df_xlsx ,
+                                    file_name= 'file.xlsx')
+        except Exception as e:
+            st.write(e)
+            st.write(keys)
 
 # Display the DataFrame
 # st.write(df)
